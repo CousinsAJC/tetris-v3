@@ -1,5 +1,7 @@
 function love.keypressed(key)
     addToSet(myKeys, key)
+    log = tostring(key .. "  " .. "::" .. "  " .. os.date("%H:%M:%S %m/%d/%y"))
+    table.insert(keyLog, log)
     if key == "escape" then
         love.event.quit()
     end
@@ -25,7 +27,7 @@ end
 
 function menuStateKeys()
     if setContains(myKeys, '1') == true then
-        gsm:change('play')
+        gsm:change('menu', 'play')
     end
 end
 
