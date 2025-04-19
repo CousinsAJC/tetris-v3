@@ -1,7 +1,10 @@
 PlayState = BaseState:extend()
 
 function PlayState:enter()
-
+    nextPiece = nil
+    currentPiece = nil
+    --createNewCurrent()
+    --createNewNext()
 end
 
 
@@ -10,7 +13,12 @@ function PlayState:update(dt)
     if gameState == "paused" then
         return
     end
-    
+    if nextPiece == nil then
+        createNewNext()
+    end
+    if nextPiece ~= nil then
+        nextPiece:update(dt)
+    end
 end
 
 
@@ -20,6 +28,16 @@ function PlayState:draw()
     else
         if gridOn == 'on' then
             drawGridDots()
+            drawNextBox()
         end
     end
+    if nextPiece ~= nil then
+        nextPiece:draw()
+    end
+end
+
+function createNewNext()
+    --letter = types[math.random(#types)]
+    --nextPiece = Piece(letter, 'next')
+    nextPiece = Piece('o', 'next')
 end
