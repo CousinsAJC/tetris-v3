@@ -5,6 +5,9 @@ function love.keypressed(key)
     if key == "escape" then
         love.event.quit()
     end
+    if setContains(myKeys, 'k') == true then
+        ksDraw = ksDraw == "on" and "off" or "on"
+    end
 end
 
 function addToSet(set, key) --see the linked answer for more functions like this
@@ -22,6 +25,26 @@ function playStateKeys()
 
     if setContains(myKeys, 'g') == true then
         gridOn = gridOn == "on" and "off" or "on"
+    end
+
+    if setContains(myKeys, 'a') == true then
+        currentPiece:rotateLeft()
+    end
+
+    if setContains(myKeys, 'd') == true then
+        currentPiece:rotateRight()
+    end
+
+    if setContains(myKeys, 'right') == true then
+        currentPiece:canMoveRight()
+    end
+
+    if setContains(myKeys, 'left') == true then
+        currentPiece:canMoveLeft()
+    end
+
+    if setContains(myKeys, 'down') == true then
+        currentPiece:canMoveDown()
     end
 end
 

@@ -16,8 +16,14 @@ function PlayState:update(dt)
     if nextPiece == nil then
         createNewNext()
     end
+    if currentPiece == nil then
+        createNewCurrent()
+    end
     if nextPiece ~= nil then
         nextPiece:update(dt)
+    end
+    if currentPiece ~= nil then
+        currentPiece:update(dt)
     end
 end
 
@@ -34,10 +40,18 @@ function PlayState:draw()
     if nextPiece ~= nil then
         nextPiece:draw()
     end
+    if currentPiece ~= nil then
+        currentPiece:draw()
+    end
 end
 
 function createNewNext()
-    --letter = types[math.random(#types)]
-    --nextPiece = Piece(letter, 'next')
-    nextPiece = Piece('o', 'next')
+    letter = types[math.random(#types)]
+    nextPiece = Piece(letter, 'next')
+    --nextPiece = Piece('o', 'next')
+end
+
+function createNewCurrent()
+    currentPiece = Piece(nextPiece.letter, 'current', nextPiece.color)
+    createNewNext()
 end

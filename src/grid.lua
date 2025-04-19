@@ -28,17 +28,3 @@ function createGrid()
     end
 end
 
-function drawGridDots()
-    love.graphics.setColor(white)
-    for i = 1, gridWidth + 1, 1 do
-        for j = 1, gridHeight + 1, 1 do
-            love.graphics.rectangle("fill", grid[i][j][1], grid[i][j][2], 1, 1)
-        end
-    end
-end
-
-function drawNextBox()
-    love.graphics.setColor(gray)
-    love.graphics.rectangle('line', nextBox.x, nextBox.y, nextBox.w, nextBox.h)
-    love.graphics.setColor(white)
-end
