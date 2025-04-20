@@ -25,6 +25,7 @@ function PlayState:update(dt)
     if currentPiece ~= nil then
         currentPiece:update(dt)
     end
+    testLines(dt)
 end
 
 
@@ -38,11 +39,12 @@ function PlayState:draw()
         end
     end
     if nextPiece ~= nil then
-        nextPiece:draw()
+        nextPiece:draw()    
     end
     if currentPiece ~= nil then
         currentPiece:draw()
     end
+    drawLocked()
 end
 
 function createNewNext()
@@ -54,4 +56,8 @@ end
 function createNewCurrent()
     currentPiece = Piece(nextPiece.letter, 'current', nextPiece.color)
     createNewNext()
+end
+
+function testLines(dt)
+    
 end

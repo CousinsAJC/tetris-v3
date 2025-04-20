@@ -53,7 +53,6 @@ function Piece:drop(dt)
         --lock in piece and start process over
     else
         self.elapsedTime = self.elapsedTime + dt
-        
     end
 end
 
@@ -102,8 +101,11 @@ function Piece:canMoveLeft()
 end
 
 function Piece:canMoveRight()
-    if self.pivot.x + self.pos[1] <= GRIDRIGHT - 2*CELLSIZE and self.pivot.x + self.pos[3] <= GRIDRIGHT - 2*CELLSIZE and
-        self.pivot.x + self.pos[5] <= GRIDRIGHT - 2*CELLSIZE and self.pivot.x + self.pos[7] <= GRIDRIGHT - 2*CELLSIZE then
+    if self.pivot.x + self.pos[1] <= GRIDRIGHT - 2*CELLSIZE and 
+        self.pivot.x + self.pos[3] <= GRIDRIGHT - 2*CELLSIZE and
+        self.pivot.x + self.pos[5] <= GRIDRIGHT - 2*CELLSIZE and 
+        self.pivot.x + self.pos[7] <= GRIDRIGHT - 2*CELLSIZE 
+    then
             self:moveRight()
     else
         --playErrorSound
@@ -111,11 +113,47 @@ function Piece:canMoveRight()
 end
 
 function Piece:canMoveDown()
-    if self.pivot.y + self.pos[2] <= GRIDBOT - 2*CELLSIZE and self.pivot.y + self.pos[4] <= GRIDBOT - 2*CELLSIZE and
-        self.pivot.y + self.pos[6] <= GRIDBOT - 2*CELLSIZE and self.pivot.y + self.pos[8] <= GRIDBOT - 2*CELLSIZE then
+    if self.pivot.y + self.pos[2] <= GRIDBOT - 2*CELLSIZE and 
+        self.pivot.y + self.pos[4] <= GRIDBOT - 2*CELLSIZE and
+        self.pivot.y + self.pos[6] <= GRIDBOT - 2*CELLSIZE and 
+        self.pivot.y + self.pos[8] <= GRIDBOT - 2*CELLSIZE  and 
+        self:lockedBelow() == false then
             self:moveDown()
     else
+        self:lockPiece()
+        currentPiece = nil
         --playErrorSound
     end
-    
+end
+
+function Piece:lockPiece()
+    self:lockTile(1,2)
+    self:lockTile(3,4)
+    self:lockTile(5,6)
+    self:lockTile(7,8)
+end
+
+function Piece:lockTile(a, b)
+    local tile = {
+        x = self.pivot.x + self.pos[a],
+        y = self.pivot.y + self.pos[b],
+        color = self.color
+    }
+    table.insert(lockedTiles, tile)
+end
+
+function Piece:lockedBelow()
+    for i = #lockedTiles, 1, -1 do
+        if (self.pivot.x + self.pos[1] == lockedTiles[i].x and
+            self.pivot.y + self.pos[2] + CELLSIZE == lockedTiles[i].y) or 
+            (self.pivot.x + self.pos[3] == lockedTiles[i].x and
+            self.pivot.y + self.pos[4] + CELLSIZE == lockedTiles[i].y) or
+            (self.pivot.x + self.pos[5] == lockedTiles[i].x and
+            self.pivot.y + self.pos[6] + CELLSIZE == lockedTiles[i].y) or 
+            (self.pivot.x + self.pos[7] == lockedTiles[i].x and
+            self.pivot.y + self.pos[8] + CELLSIZE == lockedTiles[i].y) then
+                return true
+        end
+    end
+    return false
 end
