@@ -79,6 +79,27 @@ function Piece:rotateLeft()
     end
 end
 
+function Piece:canRotate(dir)
+    if dir == 'left' then
+        self:rotateLeft()
+    else
+        self:rotateRight()
+    end
+    if self.pivot.x + self.pos[1] < GRIDLEFT or self.pivot.x + self.pos[3] < GRIDLEFT or
+        self.pivot.x + self.pos[5] < GRIDLEFT or self.pivot.x + self.pos[7] < GRIDLEFT or
+        self.pivot.x + self.pos[1] >= GRIDRIGHT or self.pivot.x + self.pos[3] >= GRIDRIGHT or
+        self.pivot.x + self.pos[5] >= GRIDRIGHT or self.pivot.x + self.pos[7] >= GRIDRIGHT or
+        self.pivot.y + self.pos[2] > GRIDBOT or self.pivot.y + self.pos[4] > GRIDBOT or
+        self.pivot.y + self.pos[6] > GRIDBOT or self.pivot.y + self.pos[8] > GRIDBOT then
+            if dir == 'left' then
+                self:rotateRight()
+            else
+                self:rotateLeft()
+                --errorSound
+            end
+    end
+end
+
 function Piece:moveLeft()
     self.pivot.x = self.pivot.x - CELLSIZE
 end
@@ -131,6 +152,7 @@ function Piece:lockPiece()
     self:lockTile(3,4)
     self:lockTile(5,6)
     self:lockTile(7,8)
+
 end
 
 function Piece:lockTile(a, b)
@@ -140,6 +162,18 @@ function Piece:lockTile(a, b)
         color = self.color
     }
     table.insert(lockedTiles, tile)
+    lockGridTiles(tile)
+end
+
+function lockGridTiles(t)
+    for i = 1, gridWidth, 1 do
+        for j = 1, gridHeight, 1 do
+            if grid[i][j][1] == t.x and grid[i][j][1] == t.j then
+                grid[i][j][3] = true
+                grid[i][j][4] = t.color
+            end
+        end
+    end
 end
 
 function Piece:lockedBelow()

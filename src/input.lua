@@ -28,11 +28,11 @@ function playStateKeys()
     end
 
     if setContains(myKeys, 'a') == true then
-        currentPiece:rotateLeft()
+        currentPiece:canRotate('left')
     end
 
     if setContains(myKeys, 'd') == true then
-        currentPiece:rotateRight()
+        currentPiece:canRotate('right')
     end
 
     if setContains(myKeys, 'right') == true then

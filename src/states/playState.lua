@@ -9,10 +9,13 @@ end
 
 
 function PlayState:update(dt)
-    playStateKeys()
     if gameState == "paused" then
+        if setContains(myKeys, 'p') == true then
+            gameState = gameState == "running" and "paused" or "running"
+        end
         return
     end
+    playStateKeys()
     if nextPiece == nil then
         createNewNext()
     end
@@ -37,14 +40,15 @@ function PlayState:draw()
             drawGridDots()
             drawNextBox()
         end
+        if nextPiece ~= nil then
+            nextPiece:draw()    
+        end
+        if currentPiece ~= nil then
+            currentPiece:draw()
+        end
+        drawLocked()
     end
-    if nextPiece ~= nil then
-        nextPiece:draw()    
-    end
-    if currentPiece ~= nil then
-        currentPiece:draw()
-    end
-    drawLocked()
+
 end
 
 function createNewNext()
