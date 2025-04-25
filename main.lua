@@ -10,8 +10,8 @@ function love.load()
 
     gameState = "running"
     pauseText = "Pause"
-    gridOn = 'on'
-    ksDraw = 'on'
+    gridOn = 'off'
+    ksDraw = 'off'
 
     myKeys = {}
     keyLog = {}

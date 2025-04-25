@@ -28,23 +28,33 @@ function playStateKeys()
     end
 
     if setContains(myKeys, 'a') == true then
-        currentPiece:canRotate('left')
+        if currentPiece ~= nil then
+            currentPiece:canRotate('left')
+        end
     end
 
     if setContains(myKeys, 'd') == true then
-        currentPiece:canRotate('right')
+        if currentPiece ~= nil then
+            currentPiece:canRotate('right')
+        end
     end
 
     if setContains(myKeys, 'right') == true then
-        currentPiece:canMoveRight()
+        if currentPiece ~= nil then
+            currentPiece:canMoveRight()
+        end
     end
 
     if setContains(myKeys, 'left') == true then
-        currentPiece:canMoveLeft()
+        if currentPiece ~= nil then
+            currentPiece:canMoveLeft()
+        end
     end
 
     if setContains(myKeys, 'down') == true then
-        currentPiece:canMoveDown()
+        if currentPiece ~= nil then
+            currentPiece:canMoveDown()
+        end
     end
 end
 

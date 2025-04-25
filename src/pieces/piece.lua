@@ -161,7 +161,6 @@ function Piece:lockTile(a, b)
         y = self.pivot.y + self.pos[b],
         color = self.color
     }
-    table.insert(lockedTiles, tile)
     lockGridTiles(tile)
     tetrisClearAndDrop()
 end

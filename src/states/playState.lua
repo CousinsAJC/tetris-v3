@@ -48,6 +48,7 @@ function PlayState:draw()
         end
         --drawLocked()
         drawLockedGrid()
+        drawGridOutline()
     end
 
 end

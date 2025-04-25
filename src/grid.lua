@@ -26,23 +26,6 @@ function createGrid()
             grid[i][j] = {startingX - CELLSIZE + (CELLSIZE * i), startingY - CELLSIZE + (CELLSIZE * j), false, nil}
         end
     end
-
-    lockedTiles = {}
-    for i = GRIDTOP, CELLSIZE, GRIDBOT - CELLSIZE do
-        lockedTiles[i] = {}
-    end
-
-end
-
-function drawLocked()
-    if lockedTiles[1] ~= nil then
-        for i = 1, #lockedTiles, 1 do
-            love.graphics.setColor(lockedTiles[i].color)
-            love.graphics.rectangle("fill", lockedTiles[i].x, lockedTiles[i].y, CELLSIZE, CELLSIZE)
-            love.graphics.setColor(gray)
-            love.graphics.rectangle("line", lockedTiles[i].x, lockedTiles[i].y, CELLSIZE, CELLSIZE)
-        end
-    end
 end
 
 function drawLockedGrid()
@@ -56,4 +39,13 @@ function drawLockedGrid()
             end
         end
     end
+end
+
+
+function drawGridOutline()
+    love.graphics.setColor(white)
+    love.graphics.rectangle('line', GRIDLEFT, GRIDTOP, gridWidth*CELLSIZE, gridHeight*CELLSIZE)
+    love.graphics.setColor(gray)
+    love.graphics.rectangle('fill', GRIDLEFT-6, GRIDTOP-6, 6, gridHeight*CELLSIZE)
+    love.graphics.rectangle('fill', GRIDLEFT-6, GRIDTOP-6, gridWidth*CELLSIZE, 6)
 end
