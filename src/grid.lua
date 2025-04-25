@@ -44,3 +44,16 @@ function drawLocked()
         end
     end
 end
+
+function drawLockedGrid()
+    for i = 1, gridWidth, 1 do
+        for j = 1, gridHeight, 1 do
+            if grid[i][j][3] == true then
+                love.graphics.setColor(grid[i][j][4])
+                love.graphics.rectangle('fill', grid[i][j][1], grid[i][j][2], CELLSIZE, CELLSIZE)
+                love.graphics.setColor(gray)
+                love.graphics.rectangle("line", grid[i][j][1], grid[i][j][2], CELLSIZE, CELLSIZE)
+            end
+        end
+    end
+end

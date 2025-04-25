@@ -1,25 +1,26 @@
 function tetrisClearAndDrop()
     local row = true
     local empties = {}
-    for i = gridHeight, 1, 1 do
+    for i = gridHeight, 1, -1 do
         row = true
         for j = 1, gridWidth, 1 do
             if grid[j][i][3] == false then
                 row = false
+                break
             end
         end
         if row == true then
             clearRow(i)
-            table.insert(empties, i)
         end
     end
-    moveRowsDown(empties)
+    moveRowsDown()
 end
 
-function moveRowsDown(lines)
+function moveRowsDown()
     --goto lowest empty line
     --move everything above down
     --repeat
+end
 
 
 

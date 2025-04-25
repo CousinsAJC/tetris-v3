@@ -46,7 +46,8 @@ function PlayState:draw()
         if currentPiece ~= nil then
             currentPiece:draw()
         end
-        drawLocked()
+        --drawLocked()
+        drawLockedGrid()
     end
 
 end

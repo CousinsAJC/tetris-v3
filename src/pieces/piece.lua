@@ -156,19 +156,20 @@ function Piece:lockPiece()
 end
 
 function Piece:lockTile(a, b)
-    local tile = {
+    tile = {
         x = self.pivot.x + self.pos[a],
         y = self.pivot.y + self.pos[b],
         color = self.color
     }
     table.insert(lockedTiles, tile)
     lockGridTiles(tile)
+    tetrisClearAndDrop()
 end
 
 function lockGridTiles(t)
     for i = 1, gridWidth, 1 do
         for j = 1, gridHeight, 1 do
-            if grid[i][j][1] == t.x and grid[i][j][1] == t.j then
+            if grid[i][j][1] == t.x and grid[i][j][2] == t.y then
                 grid[i][j][3] = true
                 grid[i][j][4] = t.color
             end
@@ -177,16 +178,19 @@ function lockGridTiles(t)
 end
 
 function Piece:lockedBelow()
-    for i = #lockedTiles, 1, -1 do
-        if (self.pivot.x + self.pos[1] == lockedTiles[i].x and
-            self.pivot.y + self.pos[2] + CELLSIZE == lockedTiles[i].y) or 
-            (self.pivot.x + self.pos[3] == lockedTiles[i].x and
-            self.pivot.y + self.pos[4] + CELLSIZE == lockedTiles[i].y) or
-            (self.pivot.x + self.pos[5] == lockedTiles[i].x and
-            self.pivot.y + self.pos[6] + CELLSIZE == lockedTiles[i].y) or 
-            (self.pivot.x + self.pos[7] == lockedTiles[i].x and
-            self.pivot.y + self.pos[8] + CELLSIZE == lockedTiles[i].y) then
-                return true
+    for i = 1, gridWidth, 1 do
+        for j = 1, gridHeight, 1 do
+            if ((self.pivot.x + self.pos[1] == grid[i][j][1] and
+                self.pivot.y + self.pos[2] + CELLSIZE == grid[i][j][2]) or 
+                (self.pivot.x + self.pos[3] == grid[i][j][1] and
+                self.pivot.y + self.pos[4] + CELLSIZE == grid[i][j][2]) or
+                (self.pivot.x + self.pos[5] == grid[i][j][1] and
+                self.pivot.y + self.pos[6] + CELLSIZE == grid[i][j][2]) or 
+                (self.pivot.x + self.pos[7] == grid[i][j][1] and
+                self.pivot.y + self.pos[8] + CELLSIZE == grid[i][j][2])) and
+                grid[i][j][3] == true then
+                    return true
+            end
         end
     end
     return false
