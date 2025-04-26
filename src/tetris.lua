@@ -32,14 +32,12 @@ end
 
 function moveRowsDown(r)
     row = r
-    for i = row-1, 1, -1 do
-        for j = 1, gridWidth, 1 do
-            if grid[j][i][3] == true then
-                grid[j][i+1][3] = grid[j][i][3]
-                grid[j][i+1][4] = grid[j][i][4]
-                grid[j][i][3] = false
-                grid[j][i][4] = nil
-            end
+    for i = 1, gridWidth, 1 do
+        for j = row-1, 1, -1 do
+            grid[i][j+1][3] = grid[i][j][3]
+            grid[i][j+1][4] = grid[i][j][4]
+            grid[i][j][3] = false
+            grid[i][j][4] = nil
         end
     end
 end

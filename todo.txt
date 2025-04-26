@@ -1,0 +1,2 @@
+tiles do not drop if the tetris is in the middle of the vertical grid.
+

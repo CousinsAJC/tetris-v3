@@ -34,16 +34,40 @@ end
 function Piece:draw()
     love.graphics.setColor(self.color)
     --love.graphics.rectangle('fill', self.pivot.x, self.pivot.y, 1, 1)
-    love.graphics.rectangle('fill', self.pivot.x + self.pos[1], self.pivot.y + self.pos[2], self.size, self.size)
-    love.graphics.rectangle('fill', self.pivot.x + self.pos[3], self.pivot.y + self.pos[4], self.size, self.size)
-    love.graphics.rectangle('fill', self.pivot.x + self.pos[5], self.pivot.y + self.pos[6], self.size, self.size)
-    love.graphics.rectangle('fill', self.pivot.x + self.pos[7], self.pivot.y + self.pos[8], self.size, self.size)
+    if (self.pivot.x + self.pos[1] >= GRIDLEFT and self.pivot.x + self.pos[1] < GRIDRIGHT and 
+        self.pivot.y + self.pos[2] >= startingX - 3*CELLSIZE and self.pivot.y + self.pos[2] < GRIDBOT) or self.status == 'next' then
+        love.graphics.rectangle('fill', self.pivot.x + self.pos[1], self.pivot.y + self.pos[2], self.size, self.size)
+    end
+    if self.pivot.x + self.pos[3] >= GRIDLEFT and self.pivot.x + self.pos[3] < GRIDRIGHT and 
+        self.pivot.y + self.pos[4] >= startingX - 3*CELLSIZE and self.pivot.y + self.pos[4] < GRIDBOT or self.status == 'next' then
+        love.graphics.rectangle('fill', self.pivot.x + self.pos[3], self.pivot.y + self.pos[4], self.size, self.size)
+    end
+    if self.pivot.x + self.pos[5] >= GRIDLEFT and self.pivot.x + self.pos[5] < GRIDRIGHT and 
+        self.pivot.y + self.pos[6] >= startingX - 3*CELLSIZE and self.pivot.y + self.pos[6] < GRIDBOT or self.status == 'next' then
+        love.graphics.rectangle('fill', self.pivot.x + self.pos[5], self.pivot.y + self.pos[6], self.size, self.size)
+    end
+    if self.pivot.x + self.pos[7] >= GRIDLEFT and self.pivot.x + self.pos[7] < GRIDRIGHT and 
+        self.pivot.y + self.pos[8] >= startingX - 3*CELLSIZE and self.pivot.y + self.pos[8] < GRIDBOT or self.status == 'next' then
+        love.graphics.rectangle('fill', self.pivot.x + self.pos[7], self.pivot.y + self.pos[8], self.size, self.size)
+    end
 
     love.graphics.setColor(gray)
-    love.graphics.rectangle('line', self.pivot.x + self.pos[1], self.pivot.y + self.pos[2], self.size, self.size)
-    love.graphics.rectangle('line', self.pivot.x + self.pos[3], self.pivot.y + self.pos[4], self.size, self.size)
-    love.graphics.rectangle('line', self.pivot.x + self.pos[5], self.pivot.y + self.pos[6], self.size, self.size)
-    love.graphics.rectangle('line', self.pivot.x + self.pos[7], self.pivot.y + self.pos[8], self.size, self.size)
+    if (self.pivot.x + self.pos[1] >= GRIDLEFT and self.pivot.x + self.pos[1] < GRIDRIGHT and 
+        self.pivot.y + self.pos[2] >= startingX - 3*CELLSIZE and self.pivot.y + self.pos[2] < GRIDBOT) or self.status == 'next' then
+        love.graphics.rectangle('line', self.pivot.x + self.pos[1], self.pivot.y + self.pos[2], self.size, self.size)
+    end
+    if self.pivot.x + self.pos[3] >= GRIDLEFT and self.pivot.x + self.pos[3] < GRIDRIGHT and 
+        self.pivot.y + self.pos[4] >= startingX - 3*CELLSIZE and self.pivot.y + self.pos[4] < GRIDBOT or self.status == 'next' then
+        love.graphics.rectangle('line', self.pivot.x + self.pos[3], self.pivot.y + self.pos[4], self.size, self.size)
+    end
+    if self.pivot.x + self.pos[5] >= GRIDLEFT and self.pivot.x + self.pos[5] < GRIDRIGHT and 
+        self.pivot.y + self.pos[6] >= startingX - 3*CELLSIZE and self.pivot.y + self.pos[6] < GRIDBOT or self.status == 'next' then
+        love.graphics.rectangle('line', self.pivot.x + self.pos[5], self.pivot.y + self.pos[6], self.size, self.size)
+    end
+    if self.pivot.x + self.pos[7] >= GRIDLEFT and self.pivot.x + self.pos[7] < GRIDRIGHT and 
+        self.pivot.y + self.pos[8] >= startingX - 3*CELLSIZE and self.pivot.y + self.pos[8] < GRIDBOT or self.status == 'next' then
+        love.graphics.rectangle('line', self.pivot.x + self.pos[7], self.pivot.y + self.pos[8], self.size, self.size)
+    end
 end
 
 function Piece:drop(dt)
@@ -113,8 +137,11 @@ function Piece:moveDown()
 end
 
 function Piece:canMoveLeft()
-    if self.pivot.x + self.pos[1] >= GRIDLEFT + CELLSIZE and self.pivot.x + self.pos[3] >= GRIDLEFT + CELLSIZE and
-        self.pivot.x + self.pos[5] >= GRIDLEFT + CELLSIZE and self.pivot.x + self.pos[7] >= GRIDLEFT + CELLSIZE then
+    if self.pivot.x + self.pos[1] >= GRIDLEFT + CELLSIZE and 
+        self.pivot.x + self.pos[3] >= GRIDLEFT + CELLSIZE and
+        self.pivot.x + self.pos[5] >= GRIDLEFT + CELLSIZE and 
+        self.pivot.x + self.pos[7] >= GRIDLEFT + CELLSIZE and
+        self:lockedLeft() == false then
             self:moveLeft()
     else
         --playErrorSound
@@ -125,8 +152,8 @@ function Piece:canMoveRight()
     if self.pivot.x + self.pos[1] <= GRIDRIGHT - 2*CELLSIZE and 
         self.pivot.x + self.pos[3] <= GRIDRIGHT - 2*CELLSIZE and
         self.pivot.x + self.pos[5] <= GRIDRIGHT - 2*CELLSIZE and 
-        self.pivot.x + self.pos[7] <= GRIDRIGHT - 2*CELLSIZE 
-    then
+        self.pivot.x + self.pos[7] <= GRIDRIGHT - 2*CELLSIZE and
+        self:lockedRight() == false then
             self:moveRight()
     else
         --playErrorSound
@@ -192,5 +219,43 @@ function Piece:lockedBelow()
             end
         end
     end
+    return false
+end
+
+function Piece:lockedRight()
+    for i = 1, gridWidth, 1 do
+        for j = 1, gridHeight, 1 do
+            if ((self.pivot.x + self.pos[1] + CELLSIZE == grid[i][j][1] and
+            self.pivot.y + self.pos[2] == grid[i][j][2]) or 
+            (self.pivot.x + self.pos[3] + CELLSIZE == grid[i][j][1] and
+            self.pivot.y + self.pos[4] == grid[i][j][2]) or 
+            (self.pivot.x + self.pos[5] + CELLSIZE == grid[i][j][1] and
+            self.pivot.y + self.pos[6] == grid[i][j][2]) or 
+            (self.pivot.x + self.pos[7] + CELLSIZE == grid[i][j][1] and
+            self.pivot.y + self.pos[8] == grid[i][j][2])) and
+            grid[i][j][3] == true then
+                return true
+            end
+        end
+    end 
+    return false
+end
+
+function Piece:lockedLeft()
+    for i = 1, gridWidth, 1 do
+        for j = 1, gridHeight, 1 do
+            if ((self.pivot.x + self.pos[1] - CELLSIZE == grid[i][j][1] and
+            self.pivot.y + self.pos[2] == grid[i][j][2]) or 
+            (self.pivot.x + self.pos[3] - CELLSIZE == grid[i][j][1] and
+            self.pivot.y + self.pos[4] == grid[i][j][2]) or 
+            (self.pivot.x + self.pos[5] - CELLSIZE == grid[i][j][1] and
+            self.pivot.y + self.pos[6] == grid[i][j][2]) or 
+            (self.pivot.x + self.pos[7] - CELLSIZE == grid[i][j][1] and
+            self.pivot.y + self.pos[8] == grid[i][j][2])) and
+            grid[i][j][3] == true then
+                return true
+            end
+        end
+    end 
     return false
 end
